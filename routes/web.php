@@ -42,9 +42,6 @@ use App\Http\Controllers\UpdateSystemByAdmin;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VehiculeController;
 use App\Http\Controllers\VenteController;
-use App\Livewire\BonCommande;
-use App\Livewire\BonCommandeLivewire;
-use App\Models\CompteClient;
 use Illuminate\Support\Facades\Route;
 
 /*
