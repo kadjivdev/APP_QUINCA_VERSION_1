@@ -58,6 +58,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+Route::get("/test-again",function(){
+    return "Testing .....";
+});
+
 Route::get('/login', [LoginController::class, 'showLogin'])->name('login-form');
 Route::post('/login', [LoginController::class, 'login'])->name('login');
 
