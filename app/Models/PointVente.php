@@ -17,6 +17,7 @@ class PointVente extends Model
         'adresse',
         'phone',
         // 'user_id',
+        'departement_id'
     ];
 
     public function magasins(): HasMany
@@ -42,5 +43,10 @@ class PointVente extends Model
     public function users(): HasMany
     {
         return $this->hasMany(User::class);
+    }
+
+    public function departement(): BelongsTo
+    {
+        return $this->belongsTo(Departement::class, "departement_id");
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Imports\ArticleImport;
 use App\Imports\PointVenteStockImport;
+use App\Models\Departement;
 use App\Models\PointVente;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -42,6 +43,7 @@ class PoinVenteController extends Controller
             'nom' => 'required|string|unique:point_ventes,nom',
             'adresse' => 'required',
             'phone' => 'required',
+            'departement_id' => 'required',
         ]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
@@ -186,8 +188,8 @@ class PoinVenteController extends Controller
 
     public function edit($id) {
         $point = PointVente::find($id);
-
-        return view('pages.point-ventes.edit', compact('point'));
+        $departements = Departement::all();
+        return view('pages.point-ventes.edit', compact('point','departements'));
     }
 
     public function update(Request $request, $id) {
@@ -195,6 +197,7 @@ class PoinVenteController extends Controller
             'nom' => 'required|string',
             'adresse' => 'required',
             'phone' => 'required',
+            'departement_id' => 'required',
         ]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
@@ -204,6 +207,7 @@ class PoinVenteController extends Controller
         $point->nom = $request->nom;
         $point->adresse = $request->adresse;
         $point->phone = $request->phone;
+        $point->departement_id = $request->departement_id;
         $point->save();
 
         return redirect()->route('boutiques.index')

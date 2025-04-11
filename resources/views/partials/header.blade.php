@@ -1,26 +1,26 @@
 <header id="header" class="header fixed-top d-flex align-items-center " style="background-color: #012970;">
 
-    <div class="d-flex flex-row align-items-center justify-content-between global_container_left" >
+    <div class="d-flex flex-row align-items-center justify-content-between global_container_left">
 
-    <!-- <button class="btn btn-sm btn-warning toggle-sidebar-btn">
+        <!-- <button class="btn btn-sm btn-warning toggle-sidebar-btn">
     <i class="bi bi-list "></i>
     </button> -->
 
-    <button type="button" class="btn btn-warning toggle-sidebar-btn"
-        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem; margin-right:10px">
-        <i class="bi bi-list "></i>
-</button>
+        <button type="button" class="btn btn-warning toggle-sidebar-btn"
+            style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem; margin-right:10px">
+            <i class="bi bi-list "></i>
+        </button>
 
         <!-- <a href="index.html" class="logo d-flex align-items-center">
             <img src="{{ asset('assets/img/logo.jpeg') }}" width="100" alt="">
             {{-- <span class="d-none d-lg-block">KADJIV</span> --}}
         </a> -->
         <div class="d-flex flex-column justify-content-center align-items-center ">
-        <span class="d-flex align-items-center app_title" style="font-size: 1.5rem;">QUINKA-KADJIV</span>
-        <span class="app_date_heure">{{ Carbon\Carbon::now()->locale('fr_FR')->isoFormat('lll') }}</span>
+            <span class="d-flex align-items-center app_title" style="font-size: 1.5rem;">QUINKA-KADJIV</span>
+            <span class="app_date_heure">{{ Carbon\Carbon::now()->locale('fr_FR')->isoFormat('lll') }}</span>
         </div>
     </div><!-- End Logo -->
-<!-- End Search Bar -->
+    <!-- End Search Bar -->
 
     <nav class="header-nav ms-auto">
         <ul class="d-flex align-items-center">
@@ -37,6 +37,8 @@
                     <li class="dropdown-header">
                         <h6>{{ Auth::user()->name }}</h6>
                         <span><small>{{ Auth::user()->roles->pluck('name')->first() }}</small></span>
+                        <hr>
+                        <span><small>{{ Auth::user()->boutique->departement?Auth::user()->boutique->departement->libelle:'--' }}</small></span>
                     </li>
                     <li>
                         <hr class="dropdown-divider">

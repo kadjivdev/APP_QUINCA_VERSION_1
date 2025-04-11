@@ -45,7 +45,6 @@
                                     @foreach($allCategories as $eachCategory)
                                     <option value="{{$eachCategory->libelle}}">{{$eachCategory->libelle }} </option>
                                     @endforeach
-
                                 </select>
                             </div>
 

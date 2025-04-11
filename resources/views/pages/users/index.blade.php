@@ -47,6 +47,8 @@
                                         <th>Email</th>
                                         <th>Contact</th>
                                         <th>Rôle</th>
+                                        <th>Point de vente</th>
+                                        <th>Département</th>
                                         {{-- <th>Action</th> --}}
                                     </tr>
                                 </thead>
@@ -58,6 +60,8 @@
                                             <td>{{ $user->email }}</td>
                                             <td>{{ $user->phone }}</td>
                                             <td>{{ $user->roles[0]->name }}</td>
+                                            <td>{{ $user->boutique?$user->boutique->nom:'---' }}</td>
+                                            <td>{{ $user->boutique->departement?$user->boutique->departement->libelle:'---' }}</td>
                                             {{-- <td>
                                                 <a href="{{route('users.show', $user->id )}}" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Voir détails"> <i class="bi bi-eye"></i> </a>
                                                 <a href="{{route('users.edit', $user->id )}}" class="btn btn-success" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Modifier utilisateur"> <i class="bi bi-pencil"></i> </a>

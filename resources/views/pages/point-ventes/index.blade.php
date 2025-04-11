@@ -48,7 +48,7 @@
                                         <th>Nom boutique</th>
                                         <th>Adresse</th>
                                         <th>Telephone</th>
-                                        {{-- <th>Gérant</th> --}}
+                                        <th>Département</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -59,7 +59,7 @@
                                             <td>{{ $point->nom }}</td>
                                             <td>{{ $point->adresse }}</td>
                                             <td>{{ $point->phone }}</td>
-                                            {{-- <td>{{ $point->gerant->name }}</td> --}}
+                                            <td>{{ $point->departement?$point->departement->libelle:'---' }}</td>
                                             <td>
                                                 <div class="dropdown">
                                                     <button class="btn btn-secondary dropdown-toggle" type="button"

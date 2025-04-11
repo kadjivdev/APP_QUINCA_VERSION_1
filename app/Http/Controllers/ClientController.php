@@ -41,8 +41,17 @@ class ClientController extends Controller
         //     ->select('clients.*', 'departements.libelle as department_name', 'agents.nom as agent_name')
         //     ->get();
 
-        $clients = Client::with('departement')->with('agent')->whereNotIn('id', [880, 171, 537, 678])->get();
-
+        $user = auth()->user();
+        $userPv = $user->boutique;
+        // on recupere seulement les clients qui sont dans le departement du l'utilisateur connecté
+        $clients = Client::with('departement')->with('agent')->whereNotIn('id', [880, 171, 537, 678])->get()
+            ->filter(function ($client) use ($userPv,$user) {
+                if ($user->hasRole("Super Admin") || $user->hasRole("CHARGE DES STOCKS ET SUIVI DES ACHATS")) {
+                    return $client;
+                }else {
+                    return $client->departement_id == $userPv->departement_id;
+                }
+            });
 
         foreach ($clients as $client) {
             $id = $client->id;
@@ -58,7 +67,7 @@ class ClientController extends Controller
                 return false;
             });
 
-            
+
 
             $total_du = $facturesSimples->sum('montant_total');
             $total_solde = $facturesSimples->sum('montant_regle');
@@ -224,9 +233,9 @@ class ClientController extends Controller
         //     })
         //     ->get();
 
-            // return response()->json([
-            //     'factures'   => $factures,
-            // ]);
+        // return response()->json([
+        //     'factures'   => $factures,
+        // ]);
 
         return view('pages.ventes-module.clients.show', compact(
             'i',
@@ -346,14 +355,15 @@ class ClientController extends Controller
         ]);
     }
 
-    public function devisByClient($id) {
+    public function devisByClient($id)
+    {
         $devis = Devis::whereIn('id', function ($query) {
-                    $query->select('devis_id')
-                           ->from('factures');
-                })
-                ->where('client_id', $id)
-                ->orderByDesc('id')
-                ->get();
+            $query->select('devis_id')
+                ->from('factures');
+        })
+            ->where('client_id', $id)
+            ->orderByDesc('id')
+            ->get();
 
         return response()->json($devis);
     }
@@ -371,7 +381,8 @@ class ClientController extends Controller
             ->with('success', 'Report à nouveau effectué avec succès.');
     }
 
-    public function synchronizeCompteClient(){
+    public function synchronizeCompteClient()
+    {
         // Parcours des lignes dans la table reglementClient avec validator_id non nul
         $reglements = ReglementClient::whereNotNull('validator_id')->get();
 
@@ -403,8 +414,8 @@ class ClientController extends Controller
         $acomptes = AcompteClient::whereNull('date_op')->whereNull('validator_id')->get();
 
         foreach ($acomptes as $acompte) {
-            $acompte->validator_id=1;
-            $acompte->validated_at=now();
+            $acompte->validator_id = 1;
+            $acompte->validated_at = now();
 
             try {
                 $acompte->save(); // Sauvegarde les modifications
@@ -416,5 +427,4 @@ class ClientController extends Controller
 
         return "Synchronisation terminée.";
     }
-
 }

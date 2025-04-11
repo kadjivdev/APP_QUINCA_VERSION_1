@@ -114,7 +114,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::delete('/delete-liv-vc/{id}', [LivraisonVenteComptController::class, 'supprimerLivraison'])->name('delete-liv-vc');
 
 
-
     Route::get('/inventaire-create/{id}', [InventaireController::class, 'create'])->name('inventaire-create');
     Route::get('/inventaire-multiple/{id}', [InventaireController::class, 'createMultiple'])->name('inventaire-multiple');
     Route::post('/inventaire-multiple-store', [InventaireController::class, 'storeMultipleBack'])->name('inventaire-multiple-store');
