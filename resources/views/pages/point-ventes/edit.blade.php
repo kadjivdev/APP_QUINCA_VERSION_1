@@ -52,7 +52,7 @@
                             <div class="col-12">
                                 <label for="">Départements</label>
                                 <select name="departement_id" id="user_id" class="form-select">
-                                    <option>Choisir un Département</option>
+                                    <option value="">Choisir un Département</option>
                                     @foreach ($departements as $departement)
                                     <option @selected($point->departement_id) value="{{ $departement->id }}">{{ $departement->libelle }}</option>
                                     @endforeach
