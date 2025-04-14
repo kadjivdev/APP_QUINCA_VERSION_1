@@ -96,9 +96,10 @@ class UserController extends Controller
     {
         $user = User::find($id);
         $roles = Role::pluck('name', 'name')->all();
+        $pointVentes = PointVente::all();
         $userRoles = $user->roles->pluck('name', 'name')->all();
 
-        return view('pages.users.edit', compact('user', 'roles', 'userRoles'));
+        return view('pages.users.edit', compact('user', 'roles', 'userRoles', 'pointVentes'));
     }
 
     /**
@@ -113,7 +114,8 @@ class UserController extends Controller
             'phone' => ['required', Rule::unique("users", "phone")->ignore($id)],
             'address' => 'required|string',
             'email' => ['required', Rule::unique("users", "email")->ignore($id)],
-            'roles' => 'required'
+            'roles' => 'required',
+            'point_vente_id' => 'required',
         ]);
 
         $input = $request->all();
