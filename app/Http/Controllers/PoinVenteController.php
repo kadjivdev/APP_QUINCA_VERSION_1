@@ -31,7 +31,8 @@ class PoinVenteController extends Controller
     public function create()
     {
         // $users = User::all();
-        return view('pages.point-ventes.create');
+        $departements = Departement::all();
+        return view('pages.point-ventes.create',compact("departements"));
     }
 
     /**
