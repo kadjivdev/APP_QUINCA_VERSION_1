@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 use Spatie\Permission\Models\Role;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -105,11 +106,13 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        // $user = User::findOrFail($id);
+        // dd($request->all());
         $this->validate($request, [
             'name' => 'required',
-            'phone' => 'required|unique:users,phone' . $id,
+            'phone' => ['required', Rule::unique("users", "phone")->ignore($id)],
             'address' => 'required|string',
-            'email' => 'required|email|unique:users,email,' . $id,
+            'email' => ['required', Rule::unique("users", "email")->ignore($id)],
             'roles' => 'required'
         ]);
 
@@ -122,7 +125,7 @@ class UserController extends Controller
         $user->assignRole($request->input('roles'));
 
         return redirect()->route('users.index')
-            ->with('success', 'User updated successfully');
+            ->with('success', 'Modification effectuée avec succès!');
     }
 
     public function usersByPoint($pointId)

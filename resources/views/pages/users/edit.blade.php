@@ -28,7 +28,7 @@
                             <h5 class="card-title">Ajouter un agent</h5>
 
                             <!-- Vertical Form -->
-                            <form class="row g-3" action="{{ route('users.update') }}" method="POST">
+                            <form class="row g-3" action="{{ route('users.update',$user->id) }}" method="POST">
                                 @csrf
                                 @method('PUT')
 
@@ -38,15 +38,15 @@
                                 </div>
                                 <div class="col-12">
                                     <label class="form-label">Email</label>
-                                    <input type="email" value="{{ $user->email }} class="form-control" name="email">
+                                    <input type="email" value="{{ $user->email }}" class="form-control" name="email">
                                 </div>
                                 <div class="col-12">
                                     <label class="form-label">Téléphone</label>
-                                    <input type="text" value="{{ $user->phone }} class="form-control" name="phone">
+                                    <input type="text" value="{{ $user->phone }}" class="form-control" name="phone">
                                 </div>
                                 <div class="col-12">
                                     <label for="inputAddress" class="form-label">Adresse</label>
-                                    <input type="text" class="form-control" value="{{ $user->address }} name="address"
+                                    <input type="text" class="form-control" value="{{ $user->address }}" name="address"
                                         id="inputAddress" placeholder="1234 Main St">
                                 </div>
                                 <div class="col-12">

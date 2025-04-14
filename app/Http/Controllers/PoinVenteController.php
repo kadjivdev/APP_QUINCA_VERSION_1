@@ -46,6 +46,7 @@ class PoinVenteController extends Controller
             'phone' => 'required',
             'departement_id' => 'required',
         ]);
+        
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
