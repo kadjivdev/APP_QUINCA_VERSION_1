@@ -49,7 +49,7 @@
                                     <th width="30%">
                                         Nom et Prénom(s)
                                     </th>
-                                    <th width="10%">Département</th>
+                                    <th width="10%">Département/Zone</th>
                                     <th width="15%">Agent</th>
                                     <th width="15%">Adresse</th>
                                     <th width="10%">Contact</th>
@@ -62,7 +62,7 @@
                                 <tr>
                                     <td>{{ $client->id }} <input type="hidden" class="form-control" value="{{ $client->id}}" name="client_id"></td>
                                     <td>{{ $client->nom_client }}</td>
-                                    <td>{{ $client->departement?->libelle }}</td>
+                                    <td>{{ $client->departement?->libelle }}/ {{$client->zone?->libelle}} </td>
                                     <td>{{ $client->agent?->nom }}</td>
                                     <td>{{ $client->address }}</td>
 

@@ -23,7 +23,8 @@ class Client extends Model
         'acompte_total',
         'statut',
         'departement_id',
-        'agent_id'
+        'agent_id',
+        'zone_id'
     ];
 
     public function devis(): HasMany
@@ -37,6 +38,10 @@ class Client extends Model
 
     public function agent() : BelongsTo {
         return $this->belongsTo(Agent::class);
+    }
+
+    public function zone() : BelongsTo {
+        return $this->belongsTo(Zone::class,'zone_id');
     }
 
     /* public function vente(): HasMany

@@ -48,7 +48,7 @@
                                     <th>Contact</th>
                                     <th>Rôle</th>
                                     <th>Point de vente</th>
-                                    <th>Département</th>
+                                    <th>Zone</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -61,7 +61,7 @@
                                     <td>{{ $user->phone }}</td>
                                     <td>{{ $user->roles[0]->name }}</td>
                                     <td>{{ $user->boutique?$user->boutique->nom:'---' }}</td>
-                                    <td>{{ $user->boutique->departement?$user->boutique->departement->libelle:'---' }}</td>
+                                    <td>{{ $user->zone?$user->zone->libelle:'---' }}</td>
                                     <td>
                                         <div @class(['d-none'=>$user->id==1]) >
                                             @can(["users.user-detail","users.user-edit"])

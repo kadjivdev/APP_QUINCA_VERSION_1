@@ -27,7 +27,8 @@ class User extends Authenticatable
         'address',
         'password',
         'point_vente_id',
-        'is_active'
+        'is_active',
+        'zone_id'
     ];
 
     /**
@@ -52,6 +53,10 @@ class User extends Authenticatable
 
     public function boutique() : BelongsTo {
         return $this->belongsTo(PointVente::class, 'point_vente_id');
+    }
+
+    public function zone() : BelongsTo {
+        return $this->belongsTo(Zone::class, 'zone_id');
     }
 
     public function isAdmin()

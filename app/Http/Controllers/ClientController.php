@@ -19,6 +19,7 @@ use App\Models\LivraisonDirecte;
 use App\Models\Requete;
 use App\Models\Transport;
 use App\Models\Vente;
+use App\Models\Zone;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
@@ -38,14 +39,13 @@ class ClientController extends Controller
         $userPv = $user->boutique;
         // on recupere seulement les clients qui sont dans le departement du l'utilisateur connecté
         $clients = Client::with('departement')->with('agent')->whereNotIn('id', [880, 171, 537, 678])->get()
-            // ->filter(function ($client) use ($userPv, $user) {
-            //     if ($user->hasRole("Super Admin") || $user->hasRole("CHARGE DES STOCKS ET SUIVI DES ACHATS")) {
-            //         return $client;
-            //     } else {
-            //         return $client->departement_id == $userPv->departement_id;
-            //     }
-            // })
-            ;
+            ->filter(function ($client) use ($userPv, $user) {
+                if ($user->hasRole("Super Admin") || $user->hasRole("CHARGE DES STOCKS ET SUIVI DES ACHATS")) {
+                    return $client;
+                } else {
+                    return $client->zone_id == $user->zone_id;
+                }
+            });
 
         foreach ($clients as $client) {
             $id = $client->id;
@@ -103,8 +103,8 @@ class ClientController extends Controller
     {
         $departements = Departement::orderBy('libelle', 'asc')->get();
         $agents = Agent::all();
-
-        return view('pages.ventes-module.clients.create', compact('departements', 'agents'));
+        $zones = Zone::all();
+        return view('pages.ventes-module.clients.create', compact('departements', 'agents', 'zones'));
     }
 
     /**
@@ -120,6 +120,7 @@ class ClientController extends Controller
             'seuil' => 'required|numeric',
             'departement' => 'required',
             'agent' => 'required',
+            'zone_id' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -140,6 +141,7 @@ class ClientController extends Controller
                 'seuil' => $request->seuil,
                 'departement_id' => $request->departement,
                 'agent_id' => $request->agent,
+                'zone_id' => $request->zone_id,
             ]);
             return response()->json(['success' => true,]);
         } else {
@@ -154,6 +156,7 @@ class ClientController extends Controller
                 'categorie' => 'VIP',
                 'departement_id' => $request->departement,
                 'agent_id' => $request->agent,
+                'zone_id' => $request->zone_id,
             ]);
             return redirect()->route('clients.index')
                 ->with('success', 'Client ajouté avec succès.');
@@ -254,7 +257,8 @@ class ClientController extends Controller
         $client = Client::findOrFail($id);
         $departements = Departement::orderBy('libelle')->get();
         $agents = Agent::all();
-        return view('pages.ventes-module.clients.edit', compact('client', 'departements', 'agents'));
+        $zones = Zone::all();
+        return view('pages.ventes-module.clients.edit', compact('client', 'departements', 'agents', 'zones'));
     }
 
     /**
@@ -267,6 +271,7 @@ class ClientController extends Controller
             'seuil' => 'required|numeric',
             'departement' => 'required',
             'agent' => 'required',
+            'zone_id' => 'required',
         ]);
 
         $client = Client::find($id);
@@ -278,6 +283,7 @@ class ClientController extends Controller
             'seuil' => $request->seuil,
             'departement_id' => $request->departement,
             'agent_id' => $request->agent,
+            'zone_id' => $request->zone_id,
         ]);
 
         return redirect()->route('clients.index')

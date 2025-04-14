@@ -53,7 +53,15 @@
                                 <label for="point_vente_id">Point de vente</label>
                                 <select name="point_vente_id" id="point_vente_id" class="form-select">
                                     @foreach ($pointVentes as $point)
-                                    <option @selected($point->id==$user->id) value="{{ $point->id }}">{{ $point->nom }}</option>
+                                    <option @selected($point->id==$user->point_vente_id) value="{{ $point->id }}">{{ $point->nom }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-12">
+                                <label for="point_vente_id">Zone</label>
+                                <select name="zone_id" class="form-select">
+                                    @foreach ($zones as $zone)
+                                    <option @selected($zone->id==$user->zone_id) value="{{ $zone->id }}">{{ $zone->libelle }}</option>
                                     @endforeach
                                 </select>
                             </div>

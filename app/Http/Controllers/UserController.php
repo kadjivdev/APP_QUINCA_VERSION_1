@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\PointVente;
 use App\Models\User;
+use App\Models\Zone;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -46,7 +47,8 @@ class UserController extends Controller
     {
         $roles = Role::pluck('name', 'name')->all();
         $points = PointVente::all();
-        return view('pages.users.create', compact('roles', 'points'));
+        $zones = Zone::all();
+        return view('pages.users.create', compact('roles', 'points','zones'));
     }
 
     /**
@@ -61,7 +63,8 @@ class UserController extends Controller
             'address' => 'required|string',
             'password' => 'required|same:confirm-password',
             'roles' => 'required',
-            'point_vente_id' => 'required'
+            'point_vente_id' => 'required',
+            'zone_id' => 'required',
         ]);
 
 
@@ -71,6 +74,7 @@ class UserController extends Controller
             'phone' => $request->phone,
             'address' => $request->address,
             'point_vente_id' => $request->point_vente_id,
+            'zone_id' => $request->zone_id,
             'is_active' => true,
             'password' => Hash::make($request->password),
         ]);
@@ -97,9 +101,11 @@ class UserController extends Controller
         $user = User::find($id);
         $roles = Role::pluck('name', 'name')->all();
         $pointVentes = PointVente::all();
+        $pointVentes = PointVente::all();
+        $zones = Zone::all();
         $userRoles = $user->roles->pluck('name', 'name')->all();
 
-        return view('pages.users.edit', compact('user', 'roles', 'userRoles', 'pointVentes'));
+        return view('pages.users.edit', compact('user', 'roles', 'userRoles', 'pointVentes','zones','userRoles'));
     }
 
     /**
@@ -116,6 +122,7 @@ class UserController extends Controller
             'email' => ['required', Rule::unique("users", "email")->ignore($id)],
             'roles' => 'required',
             'point_vente_id' => 'required',
+            'zone_id' => 'required',
         ]);
 
         $input = $request->all();
