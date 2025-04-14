@@ -33,26 +33,18 @@ class ClientController extends Controller
      */
     public function index()
     {
-        // $clients = Client::all();
-
-        // $clients = DB::table('clients')
-        //     ->join('departements', 'clients.departement_id', '=', 'departements.id')
-        //     ->join('agents', 'clients.agent_id', '=', 'agents.id')
-        //     ->select('clients.*', 'departements.libelle as department_name', 'agents.nom as agent_name')
-        //     ->get();
 
         $user = auth()->user();
         $userPv = $user->boutique;
         // on recupere seulement les clients qui sont dans le departement du l'utilisateur connecté
         $clients = Client::with('departement')->with('agent')->whereNotIn('id', [880, 171, 537, 678])->get()
-            // ->filter(function ($client) use ($userPv,$user) {
-            //     if ($user->hasRole("Super Admin") || $user->hasRole("CHARGE DES STOCKS ET SUIVI DES ACHATS")) {
-            //         return $client;
-            //     }else {
-            //         return $client->departement_id == $userPv->departement_id;
-            //     }
-            // })
-        ;
+            ->filter(function ($client) use ($userPv, $user) {
+                if ($user->hasRole("Super Admin") || $user->hasRole("CHARGE DES STOCKS ET SUIVI DES ACHATS")) {
+                    return $client;
+                } else {
+                    return $client->departement_id == $userPv->departement_id;
+                }
+            });
 
         foreach ($clients as $client) {
             $id = $client->id;
