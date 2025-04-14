@@ -63,16 +63,18 @@
                                     <td>{{ $user->boutique?$user->boutique->nom:'---' }}</td>
                                     <td>{{ $user->boutique->departement?$user->boutique->departement->libelle:'---' }}</td>
                                     <td>
-                                        @can(["users.user-detail","users.user-edit"])
-                                        @can("users.user-detail")
-                                        <a href="{{route('users.show', $user->id )}}" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Voir détails"> <i class="bi bi-eye"></i> </a>
-                                        @endcan
-                                        @can("users.user-edit")
-                                        <a href="{{route('users.edit', $user->id )}}" class="btn btn-success" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Modifier utilisateur"> <i class="bi bi-pencil"></i> </a>
-                                        @endcan
-                                        @else
-                                        ---
-                                        @endcan
+                                        <div @class(['d-none'=>$user->id==1]) >
+                                            @can(["users.user-detail","users.user-edit"])
+                                            @can("users.user-detail")
+                                            <a href="{{route('users.show', $user->id )}}" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Voir détails"> <i class="bi bi-eye"></i> </a>
+                                            @endcan
+                                            @can("users.user-edit")
+                                            <a href="{{route('users.edit', $user->id )}}" class="btn btn-success" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Modifier utilisateur"> <i class="bi bi-pencil"></i> </a>
+                                            @endcan
+                                            @else
+                                            ---
+                                            @endcan
+                                        </div>
                                     </td>
                                 </tr>
                                 @empty
