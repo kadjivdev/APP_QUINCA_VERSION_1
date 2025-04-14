@@ -38,13 +38,14 @@ class ClientController extends Controller
         $userPv = $user->boutique;
         // on recupere seulement les clients qui sont dans le departement du l'utilisateur connecté
         $clients = Client::with('departement')->with('agent')->whereNotIn('id', [880, 171, 537, 678])->get()
-            ->filter(function ($client) use ($userPv, $user) {
-                if ($user->hasRole("Super Admin") || $user->hasRole("CHARGE DES STOCKS ET SUIVI DES ACHATS")) {
-                    return $client;
-                } else {
-                    return $client->departement_id == $userPv->departement_id;
-                }
-            });
+            // ->filter(function ($client) use ($userPv, $user) {
+            //     if ($user->hasRole("Super Admin") || $user->hasRole("CHARGE DES STOCKS ET SUIVI DES ACHATS")) {
+            //         return $client;
+            //     } else {
+            //         return $client->departement_id == $userPv->departement_id;
+            //     }
+            // })
+            ;
 
         foreach ($clients as $client) {
             $id = $client->id;
