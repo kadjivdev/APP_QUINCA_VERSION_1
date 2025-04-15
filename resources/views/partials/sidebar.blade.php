@@ -121,7 +121,7 @@
                     </a>
                 </li>
 
-                @if(auth()->user()->hasRole("RECOUVREMENT") || auth()->user()->hasRole("Super Admin") || auth()->user()->hasRole("Super Admin")->hasRole("CHARGE DES STOCKS ET SUIVI DES ACHATS"))
+                @if(auth()->user()->hasRole("RECOUVREMENT") || auth()->user()->hasRole("Super Admin") || auth()->user()->hasRole("CHARGE DES STOCKS ET SUIVI DES ACHATS"))
                 <li>
                     <a href="{{ route('clients.forForeglements') }}" class="nav-link {{ request()->is('clients.*') ? 'actif_menu' : '' }}">
                         <i class="bi bi-circle"></i><span>Regler un client</span>
