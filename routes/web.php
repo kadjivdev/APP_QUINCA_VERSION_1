@@ -86,8 +86,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('deliveries', LivraisonClientController::class);
     Route::resource('devis', DevisController::class);
 
+    Route::get('clts/reglements',[ClientController::class,"forForeglements"])->name("clients.forForeglements");
     Route::resource('clients', ClientController::class);
-    Route::get('clients/reglements',[ClientController::class,"forForeglements"])->name("clients.forForeglements");
 
     Route::resource('factures', FactureController::class);
     Route::resource('ventes', VenteController::class);

@@ -36,10 +36,10 @@ class ClientController extends Controller
     {
 
         $user = auth()->user();
-        $userPv = $user->boutique;
+        // $userPv = $user->boutique;
         // on recupere seulement les clients qui sont dans le departement du l'utilisateur connecté
         $clients = Client::with('departement')->with('agent')->whereNotIn('id', [880, 171, 537, 678])->get()
-            ->filter(function ($client) use ($userPv, $user) {
+            ->filter(function ($client) use ($user) {
                 if ($user->hasRole("Super Admin") || $user->hasRole("CHARGE DES STOCKS ET SUIVI DES ACHATS")) {
                     return $client;
                 } else {
@@ -270,21 +270,6 @@ class ClientController extends Controller
 
         $client->credit_total = $total_restant1 + $total_restant - $avance;
         $client->save();
-
-
-        // $factures = FactureAncienne::with(['typeFacture', 'reglementClients' => function ($query) {
-        //     $query->whereNotNull('validated_at');
-        // }])
-        //     ->where('client_id', $id)
-        //     ->whereNotNull('validated_at')
-        //     ->whereHas('reglementClients', function ($query) {
-        //         $query->whereNotNull('validated_at');
-        //     })
-        //     ->get();
-
-        // return response()->json([
-        //     'factures'   => $factures,
-        // ]);
 
         return view('pages.ventes-module.clients.show', compact(
             'i',
