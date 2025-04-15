@@ -120,6 +120,14 @@
                         <i class="bi bi-circle"></i><span>Clients</span>
                     </a>
                 </li>
+
+                @if(auth()->user()->hasRole("RECOUVREMENT") || auth()->user()->hasRole("Super Admin") || auth()->user()->hasRole("Super Admin")->hasRole("CHARGE DES STOCKS ET SUIVI DES ACHATS"))
+                <li>
+                    <a href="{{ route('clients.forForeglements') }}" class="nav-link {{ request()->is('clients.*') ? 'actif_menu' : '' }}">
+                        <i class="bi bi-circle"></i><span>Regler un client</span>
+                    </a>
+                </li>
+                @endif
                 @endcan
 
                 @can('proforma.list-devis')
@@ -186,7 +194,7 @@
                 </li>
                 @endcan
 
-              <!--   @if (auth()->user()->hasAnyPermission(['clients.ajouter-reglement-clt', 'clients.list-reglements-clt']))
+                <!--   @if (auth()->user()->hasAnyPermission(['clients.ajouter-reglement-clt', 'clients.list-reglements-clt']))
                 <li>
                     <a href="{{ route('reglements-clt.index') }}" class="nav-link {{ request()->is('reglements-clt') ? 'actif_menu' : '' }}">
                         <i class="bi bi-person"></i>
@@ -194,7 +202,7 @@
                     </a>
                 </li>
                 @endif -->
-<!--
+                <!--
                 @if (auth()->user()->hasAnyPermission(['clients.list-accomptes', 'clients.enregistrer-accompte']))
                 <li>
                     <a href="{{ route('acompte-index') }}" class="nav-link {{ request()->is('acompte-index') ? 'actif_menu' : '' }}">
@@ -245,62 +253,62 @@
                 </li>
 
                 @can('rapports.rapport-reglements-frs')
-                    <li>
-                        <a href="{{ url('/rapport_reglement_frs') }}" class="nav-link {{ request()->is('clients.*') ? 'actif_menu' : '' }}">
-                            <i class="bi bi-circle"></i><span>Rapport règlement fournisseur</span>
-                        </a>
-                    </li>
+                <li>
+                    <a href="{{ url('/rapport_reglement_frs') }}" class="nav-link {{ request()->is('clients.*') ? 'actif_menu' : '' }}">
+                        <i class="bi bi-circle"></i><span>Rapport règlement fournisseur</span>
+                    </a>
+                </li>
                 @endcan
 
                 {{-- @can('rapports.rapport-reglements-clt') --}}
-                    <li>
-                        <a href="{{ url('/rapport_reglement_clt') }}" class="nav-link {{ request()->is('clients.*') ? 'actif_menu' : '' }}">
-                            <i class="bi bi-circle"></i><span>Rapport règlement Client</span>
-                        </a>
-                    </li>
+                <li>
+                    <a href="{{ url('/rapport_reglement_clt') }}" class="nav-link {{ request()->is('clients.*') ? 'actif_menu' : '' }}">
+                        <i class="bi bi-circle"></i><span>Rapport règlement Client</span>
+                    </a>
+                </li>
                 {{-- @endcan --}}
 
                 @can('rapports.rapport-factures-ventes-clt')
-                    <li>
-                        <a href="{{ url('/rapport_factures_ventes') }}"
-                            class="nav-link collapsed {{ request()->is('rapports.*') ? 'actif_menu' : '' }}">
-                            <i class="bi bi-circle"></i><span>Ventes</span>
-                        </a>
-                    </li>
+                <li>
+                    <a href="{{ url('/rapport_factures_ventes') }}"
+                        class="nav-link collapsed {{ request()->is('rapports.*') ? 'actif_menu' : '' }}">
+                        <i class="bi bi-circle"></i><span>Ventes</span>
+                    </a>
+                </li>
                 @endcan
 
                 @can('rapports.rapport-factures-ventes-clt')
-                    <li>
-                        <a href="{{ url('/rapport_factures_ventes_all   ') }}"
-                            class="nav-link collapsed {{ request()->is('rapports.*') ? 'actif_menu' : '' }}">
-                            <i class="bi bi-circle"></i><span>Toutes les ventes</span>
-                        </a>
-                    </li>
+                <li>
+                    <a href="{{ url('/rapport_factures_ventes_all   ') }}"
+                        class="nav-link collapsed {{ request()->is('rapports.*') ? 'actif_menu' : '' }}">
+                        <i class="bi bi-circle"></i><span>Toutes les ventes</span>
+                    </a>
+                </li>
                 @endcan
 
                 @can('rapports.rapport-factures-frs')
-                    <li>
-                        <a href="{{ route('rap_fact_frs') }}"
-                            class="nav-link collapsed {{ request()->is('rapports.*') ? 'actif_menu' : '' }}">
-                            <i class="bi bi-circle"></i><span>Factures frs</span>
-                        </a>
-                    </li>
+                <li>
+                    <a href="{{ route('rap_fact_frs') }}"
+                        class="nav-link collapsed {{ request()->is('rapports.*') ? 'actif_menu' : '' }}">
+                        <i class="bi bi-circle"></i><span>Factures frs</span>
+                    </a>
+                </li>
                 @endcan
                 @can('rapports.rapport-factures-ventes-clt')
-                    <li>
-                        <a href="{{ route('rap_fact_vte_clt') }}"
-                            class="nav-link collapsed {{ request()->is('rapports.*') ? 'actif_menu' : '' }}">
-                            <i class="bi bi-circle"></i><span>Factures client</span>
-                        </a>
-                    </li>
+                <li>
+                    <a href="{{ route('rap_fact_vte_clt') }}"
+                        class="nav-link collapsed {{ request()->is('rapports.*') ? 'actif_menu' : '' }}">
+                        <i class="bi bi-circle"></i><span>Factures client</span>
+                    </a>
+                </li>
                 @endcan
                 @can('rapports.rapport-factures-impayes-clt')
-                    <li>
-                        <a href="{{ route('facturesCltSansReglemt') }}"
-                            class="nav-link collapsed {{ request()->is('rapports.*') ? 'actif_menu' : '' }}">
-                            <i class="bi bi-circle"></i><span>Factures clt non réglées</span>
-                        </a>
-                    </li>
+                <li>
+                    <a href="{{ route('facturesCltSansReglemt') }}"
+                        class="nav-link collapsed {{ request()->is('rapports.*') ? 'actif_menu' : '' }}">
+                        <i class="bi bi-circle"></i><span>Factures clt non réglées</span>
+                    </a>
+                </li>
                 @endcan
             </ul>
         </li><!-- End Components Nav -->

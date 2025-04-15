@@ -96,6 +96,60 @@ class ClientController extends Controller
         return view('pages.ventes-module.clients.index', compact('clients', 'departements'));
     }
 
+    // les clients pour reglements
+    function forForeglements()
+    {
+        $user = auth()->user();
+
+        if (!$user->hasRole("RECOUVREMENT") && $user->hasRole("Super Admin") && $user->hasRole("CHARGE DES STOCKS ET SUIVI DES ACHATS")) {
+            return "Vous n'êtes pas autorisé.e à faire cette action";
+        }
+        $clients = Client::with('departement')->with('agent')->whereNotIn('id', [880, 171, 537, 678])->get();
+
+        foreach ($clients as $client) {
+            $id = $client->id;
+            $devisIds = Devis::where('client_id', $id)->get()->pluck('id');
+            $facturesDevis = Facture::with(['typeFacture'])->whereIn("devis_id", $devisIds)->whereNotNull('validate_by')->get();
+            $facturesAnciennes = FactureAncienne::with(['typeFacture'])->where("client_id", $id)->get();
+            $factures_simples = LivraisonDirecte::with(['typeFacture'])->where("client_id", $id)->whereNotNull('validated_at')->get();
+            $factures = $facturesDevis->concat($factures_simples)->concat($facturesAnciennes);
+            $facturesSimples = $factures->filter(function ($facture) {
+                if ($facture->typeFacture && $facture->typeFacture->libelle === 'Simple') {
+                    return true;
+                }
+                return false;
+            });
+
+            $total_du = $facturesSimples->sum('montant_total');
+            $total_solde = $facturesSimples->sum('montant_regle');
+            $total_restant = $total_du  - $total_solde;
+
+            $facturesNormalises = $factures->filter(function ($facture) {
+                // Vérifier si typeFacture est défini et n'est pas nul
+                if ($facture->typeFacture && $facture->typeFacture->libelle === 'Normalisée') {
+                    return true;
+                }
+                return false;
+            });
+
+            $montant_acompte = AcompteClient::where('client_id', $id)->whereNotNull('validator_id')->sum('montant_acompte');
+            $montant_requêtes = Requete::where('client_id', $id)->whereNotNull('validate_at')->sum('montant');
+            $montant_transports = Transport::where('client_id', $id)->whereNotNull('validate_at')->sum('montant');
+
+            $avance = $montant_acompte;
+            $total_du1 = $facturesNormalises->sum('montant_total');
+            $total_solde1 = $facturesNormalises->sum('montant_regle');
+            $total_restant1 = $total_du1  - $total_solde1;
+
+            $solde = $avance + $montant_requêtes - ($total_restant1 + $total_restant + $montant_transports);
+            $client->solde = $solde;
+        }
+
+        $departements = Departement::all();
+
+        return view('pages.ventes-module.clients.client-to-regle', compact('clients', 'departements'));
+    }
+
     /**
      * Show the form for creating a new resource.
      */

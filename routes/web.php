@@ -85,7 +85,10 @@ Route::group(['middleware' => ['auth']], function () {
     // vente module routes
     Route::resource('deliveries', LivraisonClientController::class);
     Route::resource('devis', DevisController::class);
+
     Route::resource('clients', ClientController::class);
+    Route::get('clients/reglements',[ClientController::class,"forForeglements"])->name("clients.forForeglements");
+
     Route::resource('factures', FactureController::class);
     Route::resource('ventes', VenteController::class);
     Route::resource('livraisonsDirectes', LivraisonDirecteController::class);
