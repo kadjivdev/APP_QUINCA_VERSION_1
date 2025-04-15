@@ -6,19 +6,6 @@
         <div class="col-3">
             <h1 class="float-left">Clients</h1>
         </div>
-        <div class="col-4">
-            {{-- <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop1">
-                Importer Report à nouveau
-            </button> --}}
-        </div>
-        <div class="col-5 justify-content-end">
-            <div class="">
-                {{-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                    Importer
-                </button> --}}
-                <a href="{{ route('clients.create')}}" class="btn btn-primary float-end"> + Ajouter un client</a>
-            </div>
-        </div>
     </div><!-- End Page +++ -->
 
     <section class="section">
