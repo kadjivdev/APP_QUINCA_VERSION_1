@@ -71,6 +71,16 @@
                                                 <li>
                                                     <a href="{{route('real-reglements-clt', $client->id )}}" class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Liste des règlements"> Liste des Règlements </a>
                                                 </li>
+
+                                                <li>
+                                                    <a href="{{route('acompte-create', $client->id )}}" class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Enregistrer un accompte "> Enregistrer un Accompte </a>
+
+                                                </li>
+
+                                                <li>
+                                                    <a href="{{route('acomptes-clt', $client->id )}}" class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Liste des accomptes"> Liste des Accomptes </a>
+
+                                                </li>
                                             </ul>
                                         </div>
 
