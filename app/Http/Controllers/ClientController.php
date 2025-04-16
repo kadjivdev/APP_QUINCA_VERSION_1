@@ -40,7 +40,7 @@ class ClientController extends Controller
         // on recupere seulement les clients qui sont dans le departement du l'utilisateur connecté
         $clients = Client::with('departement')->with('agent')->whereNotIn('id', [880, 171, 537, 678])->get()
             ->filter(function ($client) use ($user) {
-                if ($user->hasRole("Super Admin") || $user->hasRole("CHARGE DES STOCKS ET SUIVI DES ACHATS") || $user->hasRole("CAISSE") || $user->hasRole("RECOUVREMENT")) {
+                if ($user->hasRole("Super Admin") || $user->hasRole("CHARGE DES STOCKS ET SUIVI DES ACHATS") || $user->hasRole("CAISSE") || $user->hasRole("RECOUVREMENT") || $user->hasRole("COMMERCIAL")) {
                     return $client;
                 } else {
                     return $client->zone_id == $user->zone_id;
