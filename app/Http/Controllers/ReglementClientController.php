@@ -249,13 +249,13 @@ class ReglementClientController extends Controller
     }
 
     public function delReg($id){
-        $reglement = ReglementClient::find($id);
-        ReglementClient::destroy($id);
-
         // suppression des reglements
         AcompteClient::where("reglement_client_id",$id)->delete();
         // suppression des comptes
         CompteClient::where("cle",$id)->delete();
+        
+        $reglement = ReglementClient::find($id);
+        ReglementClient::destroy($id);
         
         return redirect()->route('real-reglements-clt', $reglement->client_id )
         ->with('success', 'Règlement supprimé avec succès.');
