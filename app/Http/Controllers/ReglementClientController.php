@@ -146,8 +146,6 @@ class ReglementClientController extends Controller
             'user_id' => Auth::id()
         ]);
 
-        
-
         if (Auth::user()->hasRole('CAISSE')) {
             $encaissement = new Encaissement();
             $encaissement->user_id = Auth::user()->id;
@@ -255,7 +253,7 @@ class ReglementClientController extends Controller
         ReglementClient::destroy($id);
         
         return redirect()->route('real-reglements-clt', $reglement->client_id )
-        ->with('success', 'Règlement validé avec succès.');
+        ->with('success', 'Règlement supprimé avec succès.');
     }
 
 
