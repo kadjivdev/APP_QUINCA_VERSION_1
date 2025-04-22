@@ -29,6 +29,7 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PoinVenteController;
 use App\Http\Controllers\ProformaController;
 use App\Http\Controllers\RapportController;
+use App\Http\Controllers\RecouvrementController;
 use App\Http\Controllers\ReglementClientController;
 use App\Http\Controllers\ReglementController;
 use App\Http\Controllers\RequeteController;
@@ -86,7 +87,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('deliveries', LivraisonClientController::class);
     Route::resource('devis', DevisController::class);
 
-    Route::get('clts/reglements',[ClientController::class,"forForeglements"])->name("clients.forForeglements");
+    Route::get('clts/reglements', [ClientController::class, "forForeglements"])->name("clients.forForeglements");
     Route::resource('clients', ClientController::class);
 
     Route::resource('factures', FactureController::class);
@@ -274,4 +275,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/bons-par-client/{client_id}', [LivraisonVenteComptController::class, 'getBonsParClient']);
 
     Route::get('/client-synchro', [ClientController::class, 'synchronizeCompteClient']);
+
+    // RECOUVREMENTS 
+    Route::controller(RecouvrementController::class)->prefix("recouvrement")->group(function () {
+        Route::get("/index", "index")->name("recouvrement.index");
+        Route::post("/store", "store")->name("recouvrement.store");
+        Route::post("/verification", "verification")->name("recouvrement.verification");
+    });
 });

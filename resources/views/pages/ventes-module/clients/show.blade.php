@@ -178,47 +178,47 @@
                         </div>
 
                         @if (count($factures) > 0)
-                            <table id="example" class=" table table-bordered border-warning  table-hover table-warning table-sm">
-                                <thead>
-                                    <tr>
-                                        <th>N°</th>
-                                        <th>
-                                            Ref facture
-                                        </th>
-                                        <th>Date Facture</th>
-                                        <th>Montant facture</th>
-                                        <th>Montant soldé</th>
-                                        <th>Observation</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @forelse ($factures as $facture)
-                                    <tr>
-                                        <td>{{ $i++ }} </td>
-                                        <td>{{ $facture->num_facture }} {{ $facture->ref_livraison }} </td>
-                                        <td>{{ $facture->date_facture }} {{ $facture->date_livraison }}</td>
-                                        <td> {{ number_format($facture->montant_total, 2, ',', ' ') }}</td>
-                                        <td>{{ number_format($facture->montant_regle, 2, ',', ' ') }}</td>
-                                        <td>
-                                            @if (substr($facture->num_facture, 0, 2) == 'FO')
-                                            Report à nouveau
-                                            @endif
-                                        </td>
-                                    </tr>
-                                    @empty
-                                    <tr>
-                                        <div class="alert alert-danger text-center py-3 " role="alert">
-                                            Aucune facture disponible actuellement
-                                        </div>
-                                    </tr>
-                                    @endforelse
+                        <table id="example" class=" table table-bordered border-warning  table-hover table-warning table-sm">
+                            <thead>
+                                <tr>
+                                    <th>N°</th>
+                                    <th>
+                                        Ref facture
+                                    </th>
+                                    <th>Date Facture</th>
+                                    <th>Montant facture</th>
+                                    <th>Montant soldé</th>
+                                    <th>Observation</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse ($factures as $facture)
+                                <tr>
+                                    <td>{{ $i++ }} </td>
+                                    <td>{{ $facture->num_facture }} {{ $facture->ref_livraison }} </td>
+                                    <td>{{ $facture->date_facture }} {{ $facture->date_livraison }}</td>
+                                    <td> {{ number_format($facture->montant_total, 2, ',', ' ') }}</td>
+                                    <td>{{ number_format($facture->montant_regle, 2, ',', ' ') }}</td>
+                                    <td>
+                                        @if (substr($facture->num_facture, 0, 2) == 'FO')
+                                        Report à nouveau
+                                        @endif
+                                    </td>
+                                </tr>
+                                @empty
+                                <tr>
+                                    <div class="alert alert-danger text-center py-3 " role="alert">
+                                        Aucune facture disponible actuellement
+                                    </div>
+                                </tr>
+                                @endforelse
 
-                                </tbody>
-                            </table>
+                            </tbody>
+                        </table>
                         @else
-                            <div class="alert alert-danger text-center py-3 " role="alert">
-                                Aucune facture disponible actuellement
-                            </div>
+                        <div class="alert alert-danger text-center py-3 " role="alert">
+                            Aucune facture disponible actuellement
+                        </div>
                         @endif
 
                     </div>
@@ -253,6 +253,7 @@
         </div>
     </div>
 </main>
+
 <script>
     var apiUrl = "{{ config('app.url_ajax') }}";
     $(document).ready(function() {

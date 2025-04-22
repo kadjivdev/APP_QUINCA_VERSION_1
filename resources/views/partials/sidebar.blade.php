@@ -127,6 +127,12 @@
                         <i class="bi bi-circle"></i><span>Regler un client</span>
                     </a>
                 </li>
+                <!--  -->
+                <li>
+                    <a href="{{ route('recouvrement.index') }}" class="nav-link {{ request()->is('recouvrement.*') ? 'actif_menu' : '' }}">
+                        <i class="bi bi-circle"></i><span>Recouvrement Client</span>
+                    </a>
+                </li>
                 @endif
                 @endcan
 
