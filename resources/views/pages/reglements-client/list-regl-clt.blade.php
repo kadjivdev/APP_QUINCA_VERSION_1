@@ -118,13 +118,13 @@
                                                                                         : '-')))))))) }}
                                             </td>
                                             <td>
-                                                @if ($op->facture && $op->facture?->id != 15)
+                                                <!-- if ($op->facture && $op->facture?->id != 15) -->
                                                     @if ($op->vente_id)
                                                         <a href="{{ route('ventes.show', $op->vente_id) }}" class="btn btn-primary"><i class="bi bi-eye"></i></a>
                                                     @else
                                                         <a href="{{ url('/devis', $op->facture?->devis_id) }}" class="btn btn-primary"><i class="bi bi-eye"></i></a>                                                        
                                                     @endif
-                                                @endif
+                                                <!-- endif -->
                                             </td>
                                         </tr>
                                     @empty

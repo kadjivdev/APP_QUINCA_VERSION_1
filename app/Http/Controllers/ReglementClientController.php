@@ -370,15 +370,10 @@ class ReglementClientController extends Controller
             if ($transaction->type_op == "FAC_VC") {
                 $facture = FactureVente::find($transaction->facture_id);
                 $transaction->vente_id = $facture->vente_id;
-                // dd($transaction);
             }
-
-            // dd($transaction);
         }
 
-        // dd($transaction);
         return view('pages.reglements-client.list-regl-clt', compact('client', 'compte', 'solde'));
-
     }
 
 
