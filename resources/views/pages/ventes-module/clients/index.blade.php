@@ -76,7 +76,7 @@
                                             </button>
                                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
 
-                                            <li>
+                                                <li>
                                                     <a href="{{route('reglements-clt' , $client->id)}}" data-bs-toggle="tooltip" class="dropdown-item" data-bs-placement="left" data-bs-title="Voir l'historique du compte">Historique du Compte </a>
 
                                                 </li>
@@ -107,11 +107,9 @@
 
                                                 <li>
                                                     <a href="{{route('acomptes-clt', $client->id )}}" class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Liste des accomptes"> Liste des Accomptes </a>
-
                                                 </li>
                                             </ul>
                                         </div>
-
                                     </td>
                                 </tr>
                                 @empty
@@ -152,8 +150,8 @@
         </div>
     </div>
 
-     <!-- Modal -->
-     <div class="modal fade" id="staticBackdrop1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <!-- Modal -->
+    <div class="modal fade" id="staticBackdrop1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <form action="{{ route('compte-client-import') }} " method="post" enctype="multipart/form-data">

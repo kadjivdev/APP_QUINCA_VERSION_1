@@ -49,44 +49,66 @@ class ClientController extends Controller
 
         foreach ($clients as $client) {
             $id = $client->id;
-            $devisIds = Devis::where('client_id', $id)->get()->pluck('id');
-            $facturesDevis = Facture::with(['typeFacture'])->whereIn("devis_id", $devisIds)->whereNotNull('validate_by')->get();
-            $facturesAnciennes = FactureAncienne::with(['typeFacture'])->where("client_id", $id)->get();
-            $factures_simples = LivraisonDirecte::with(['typeFacture'])->where("client_id", $id)->whereNotNull('validated_at')->get();
-            $factures = $facturesDevis->concat($factures_simples)->concat($facturesAnciennes);
-            $facturesSimples = $factures->filter(function ($facture) {
-                if ($facture->typeFacture && $facture->typeFacture->libelle === 'Simple') {
-                    return true;
+            // $devisIds = Devis::where('client_id', $id)->get()->pluck('id');
+            // $facturesDevis = Facture::with(['typeFacture'])->whereIn("devis_id", $devisIds)->whereNotNull('validate_by')->get();
+            // $facturesAnciennes = FactureAncienne::with(['typeFacture'])->where("client_id", $id)->get();
+            // $factures_simples = LivraisonDirecte::with(['typeFacture'])->where("client_id", $id)->whereNotNull('validated_at')->get();
+            // $factures = $facturesDevis->concat($factures_simples)->concat($facturesAnciennes);
+            // $facturesSimples = $factures->filter(function ($facture) {
+            //     if ($facture->typeFacture && $facture->typeFacture->libelle === 'Simple') {
+            //         return true;
+            //     }
+            //     return false;
+            // });
+
+            // $total_du = $facturesSimples->sum('montant_total');
+            // $total_solde = $facturesSimples->sum('montant_regle');
+            // $total_restant = $total_du  - $total_solde;
+
+            // $facturesNormalises = $factures->filter(function ($facture) {
+            //     // Vérifier si typeFacture est défini et n'est pas nul
+            //     if ($facture->typeFacture && $facture->typeFacture->libelle === 'Normalisée') {
+            //         return true;
+            //     }
+            //     return false;
+            // });
+
+            // $montant_acompte = AcompteClient::where('client_id', $id)->whereNotNull('validator_id')->sum('montant_acompte');
+            // $montant_requêtes = Requete::where('client_id', $id)->whereNotNull('validate_at')->sum('montant');
+            // $montant_transports = Transport::where('client_id', $id)->whereNotNull('validate_at')->sum('montant');
+
+            // $avance = $montant_acompte;
+            // $total_du1 = $facturesNormalises->sum('montant_total');
+            // $total_solde1 = $facturesNormalises->sum('montant_regle');
+            // $total_restant1 = $total_du1  - $total_solde1;
+
+            // $solde = $avance + $montant_requêtes - ($total_restant1 + $total_restant + $montant_transports);
+            // $client->solde = $solde;
+
+            $compte = CompteClient::where('client_id', $client->id)
+                ->with(['facture' => function ($query) {
+                    $query->select('id', 'devis_id'); // Sélectionnez les colonnes de la table facture
+                }])
+                ->orderBy('id', 'desc')
+                ->get();
+
+            $solde = 0;
+
+            foreach ($compte as $transaction) {
+                if ($transaction->type_op == "FAC" || $transaction->type_op == "FAC_AC" || $transaction->type_op == "FAC_VP" || $transaction->type_op == "FAC_VC" || $transaction->type_op == "FAC_RAN" || $transaction->type_op == "TRP") {
+                    // Si c'est un règlement ou un acompte, on soustrait le montant
+                    $solde -= $transaction->montant_op;
+                } else {
+                    // Pour tout autre type d'opération, on ajoute le montant
+                    $solde += $transaction->montant_op;
                 }
-                return false;
-            });
 
-            $total_du = $facturesSimples->sum('montant_total');
-            $total_solde = $facturesSimples->sum('montant_regle');
-            $total_restant = $total_du  - $total_solde;
-
-            $facturesNormalises = $factures->filter(function ($facture) {
-                // Vérifier si typeFacture est défini et n'est pas nul
-                if ($facture->typeFacture && $facture->typeFacture->libelle === 'Normalisée') {
-                    return true;
+                if ($transaction->type_op == "FAC_VC") {
+                    $facture = FactureVente::find($transaction->facture_id);
+                    $transaction->vente_id = $facture->vente_id;
                 }
-                return false;
-            });
+            }
 
-            $montant_acompte = AcompteClient::where('client_id', $id)->whereNotNull('validator_id')->sum('montant_acompte');
-            $montant_requêtes = Requete::where('client_id', $id)->whereNotNull('validate_at')->sum('montant');
-            $montant_transports = Transport::where('client_id', $id)->whereNotNull('validate_at')->sum('montant');
-
-            $avance = $montant_acompte;
-            $total_du1 = $facturesNormalises->sum('montant_total');
-            $total_solde1 = $facturesNormalises->sum('montant_regle');
-            $total_restant1 = $total_du1  - $total_solde1;
-
-            // if($client->id == 648){
-            //     dd($avance);
-            // }
-
-            $solde = $avance + $montant_requêtes - ($total_restant1 + $total_restant + $montant_transports);
             $client->solde = $solde;
         }
 
