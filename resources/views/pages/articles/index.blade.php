@@ -29,7 +29,7 @@
                         <a href="{{ route('articles.create') }}" style="margin-left: 10px;" class="btn btn-warning float-end petit_bouton"> <i class="bi bi-plus-circle"></i> Ajouter un article</a>
                     @endcan
 
-                    <a type="button" class="btn btn-dark position-relative petit_bouton" href="{{ route('articles.create') }}">
+                    <a type="button" class="btn btn-dark position-relative petit_bouton" href="{{ route('articleAll') }}">
                         <i class="bi bi-card-list"></i> Afficher Tous les articles
                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                         {{count($articles_all)}}
@@ -115,10 +115,7 @@
                                                 <td>{{ $articles->stock_alert }}</td>
                                                 <td>{{ $articles->categorie->libelle }}</td>
                                                 <td>{{ $articles->uniteBase->unite }}</td>
-                                                {{-- <td>
-                                                <a href="{{route('articles.show', $articles->id )}}" class="btn btn-primary"> <i class="bi bi-eye"></i> </a>
-                                                <a href="{{route('articles.edit', $articles->id )}}" class="btn btn-success"> <i class="bi bi-pencil"></i> </a>
-                                                </td> --}}
+                                               
                                                 <td>
                                                     {{-- @can('articles.modifier-article') --}}
                                                     <a href="{{ route('articles.edit', $articles->id) }}"
@@ -133,8 +130,6 @@
                                                         data-bs-target="#stockModal{{ $articles->id }}"> <i
                                                             class="bi bi-box-seam"></i>
                                                     </a>
-
-
                                                 </td>
                                             </tr>
 

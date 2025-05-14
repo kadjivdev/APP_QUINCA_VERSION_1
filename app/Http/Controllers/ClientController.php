@@ -114,7 +114,6 @@ class ClientController extends Controller
 
         $departements = Departement::all();
 
-        // dd([FactureAncienne::find(120), Client::find(240)]);
         return view('pages.ventes-module.clients.index', compact('clients', 'departements'));
     }
 

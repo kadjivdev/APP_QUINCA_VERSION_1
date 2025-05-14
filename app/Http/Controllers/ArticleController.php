@@ -29,6 +29,21 @@ class ArticleController extends Controller
         ]);
     }
 
+    public function articlesAll()
+    {
+        $articles = collect();
+
+        Article::chunk(100,function ($chunck) use (&$articles) {
+            $articles = $articles->merge($chunck);
+        });
+
+        $unites = UniteMesure::all();
+        $points = PointVente::all();
+
+        return view('pages.articles.all', compact('articles',"unites","points"));
+    }
+
+
     /**
      * Display a listing of the resource.
      */

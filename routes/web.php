@@ -72,6 +72,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::put('/categories/{id}', [CategorieController::class, 'destroy'])->name('categories.destroy');
 
     Route::resource('articles', ArticleController::class);
+    Route::get('articles-all', [ArticleController::class,"articlesAll"])->name("articleAll");
+
     Route::resource('bon-commandes', BonCommandeController::class);
     Route::resource('commandes', CommandeController::class);
     Route::resource('magasins', MagasinController::class);
